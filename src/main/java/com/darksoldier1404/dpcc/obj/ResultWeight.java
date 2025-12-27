@@ -27,8 +27,8 @@ public class ResultWeight {
         this.weight = weight;
     }
 
-    public YamlConfiguration serialize(YamlConfiguration data) {
-        data.set("ResultWeight." + slot + ".weight", weight);
+    public YamlConfiguration serialize(YamlConfiguration data, String parentRecipeName) {
+        data.set("ResultWeight." + parentRecipeName + "." + slot + ".weight", weight);
         return data;
     }
 }

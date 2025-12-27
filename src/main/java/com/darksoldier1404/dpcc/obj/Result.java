@@ -102,29 +102,29 @@ public class Result {
     }
 
     public YamlConfiguration serialize(YamlConfiguration data) {
-        data.set("Result.amount", resultAmount);
+        data.set("Result." + parentRecipe.getName() + ".amount", resultAmount);
         for (int i = 0; i < inventory.getContents().length; i++) {
-            data.set("Result.item." + i, inventory.getContents()[i]);
+            data.set("Result." + parentRecipe.getName() + ".item." + i, inventory.getContents()[i]);
         }
         for (ResultWeight weight : weights) {
-            weight.serialize(data);
+            weight.serialize(data, parentRecipe.getName());
         }
         return data;
     }
 
     public Result deserialize(YamlConfiguration data) {
-        this.resultAmount = data.getInt("Result.amount");
+        this.resultAmount = data.getInt("Result." + parentRecipe.getName() + ".amount");
         ItemStack[] contents = new ItemStack[inventory.getSize()];
         for (int i = 0; i < contents.length; i++) {
-            contents[i] = data.getItemStack("Result.item." + i);
+            contents[i] = data.getItemStack("Result." + parentRecipe.getName() + ".item." + i);
         }
         inventory.setContents(contents);
 
         List<ResultWeight> deserializedWeights = new ArrayList<>();
         if (data.contains("ResultWeight")) {
-            for (String key : data.getConfigurationSection("ResultWeight").getKeys(false)) {
+            for (String key : data.getConfigurationSection("ResultWeight." + parentRecipe.getName()).getKeys(false)) {
                 int slot = Integer.parseInt(key);
-                int weight = data.getInt("ResultWeight." + key + ".weight");
+                int weight = data.getInt("ResultWeight." + parentRecipe.getName() + "." + key + ".weight");
                 deserializedWeights.add(new ResultWeight(slot, weight));
             }
         }
