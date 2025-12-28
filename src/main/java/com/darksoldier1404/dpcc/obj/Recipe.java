@@ -210,6 +210,7 @@ public class Recipe {
         for (int i = 0; i < ingredients.length; i++) {
             ingredients[i] = data.getItemStack("Recipe." + name + ".ingredient." + i);
         }
-        this.result = new Result(this).deserialize(data);
+        this.result = new Result(this);
+        this.result.deserialize(data);
     }
 }
