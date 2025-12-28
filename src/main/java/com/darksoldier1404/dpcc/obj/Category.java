@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +60,12 @@ public class Category implements DataCargo {
         inv.setChannel(0);
         inv.setObj(this);
         for (Recipe r : recipes.values()) {
-            ItemStack item = new ItemStack(Material.BOOK);
+            ItemStack item;
+            if (Arrays.stream(r.getResult().getInventory().getContents()).findFirst().isPresent()) {
+                item = Arrays.stream(r.getResult().getInventory().getContents()).findFirst().get().clone();
+            } else {
+                item = new ItemStack(Material.BOOK);
+            }
             ItemMeta im = item.getItemMeta();
             if (im != null) {
                 im.setDisplayName(CustomCrafting.getInstance().getLang().getWithArgs("recipe_title", r.getName()));
@@ -87,12 +93,16 @@ public class Category implements DataCargo {
     public Category deserialize(YamlConfiguration data) {
         this.name = data.getString("name");
         this.inventory = new DInventory(CustomCrafting.getInstance().getLang().getWithArgs("recipe_list_title", name), 54, true, true, CustomCrafting.getInstance()).deserialize(data);
-        if (data.contains("Recipe")) {
-            for (String key : data.getConfigurationSection("Recipe").getKeys(false)) {
-                Recipe r = new Recipe(name, key);
-                r.deserialize(data, key);
-                recipes.put(key, r);
+        try {
+            if (data.contains("Recipe")) {
+                for (String key : data.getConfigurationSection("Recipe").getKeys(false)) {
+                    Recipe r = new Recipe(name, key);
+                    r.deserialize(data, key);
+                    recipes.put(key, r);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return this;
     }

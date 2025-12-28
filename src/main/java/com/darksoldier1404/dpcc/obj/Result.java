@@ -122,10 +122,19 @@ public class Result {
 
         List<ResultWeight> deserializedWeights = new ArrayList<>();
         if (data.contains("ResultWeight")) {
-            for (String key : data.getConfigurationSection("ResultWeight." + parentRecipe.getName()).getKeys(false)) {
-                int slot = Integer.parseInt(key);
-                int weight = data.getInt("ResultWeight." + parentRecipe.getName() + "." + key + ".weight");
-                deserializedWeights.add(new ResultWeight(slot, weight));
+            if (data.contains("ResultWeight." + parentRecipe.getName())) {
+                for (String key : data.getConfigurationSection("ResultWeight." + parentRecipe.getName()).getKeys(false)) {
+                    int slot = Integer.parseInt(key);
+                    int weight = data.getInt("ResultWeight." + parentRecipe.getName() + "." + key + ".weight");
+                    deserializedWeights.add(new ResultWeight(slot, weight));
+                }
+            } else { // set default value
+                for (int i = 0; i < inventory.getContents().length; i++) {
+                    ItemStack item = inventory.getItem(i);
+                    if (item != null && !item.getType().isAir()) {
+                        deserializedWeights.add(new ResultWeight(i, 1));
+                    }
+                }
             }
         }
         this.weights = deserializedWeights;
