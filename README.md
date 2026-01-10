@@ -52,25 +52,27 @@ Enable players to craft new and unique items beyond the standard Minecraft recip
 
 | Command | Permission | Description | Example |
 |-------|------------|-------------|---------|
-| `/dpcc create <recipeName> (shaped/shapeless)` | dpcc.admin | Create a new custom recipe | `/dpcc create MagicWand shaped`<br>`/dpcc create MagicDust shapeless` |
-| `/dpcc items <recipeName>` | dpcc.admin | Edit recipe ingredients and result | `/dpcc items MagicWand` |
-| `/dpcc delete <recipeName>` | dpcc.admin | Delete a custom recipe | `/dpcc delete MagicWand` |
-| `/dpcc open` | None | Open recipe list GUI | `/dpcc open` |
+| `/dpcc createcategory <categoryName>` | dpcc.admin | Create a new category | `/dpcc createcategory MagicItems` |
+| `/dpcc createrecipe <categoryName> <recipeName>` | dpcc.admin | Create a new recipe inside a category | `/dpcc createrecipe MagicItems FireWand` |
+| `/dpcc recipeitem <categoryName> <recipeName>` | dpcc.admin | Set recipe ingredients (opens recipe item GUI) | `/dpcc recipeitem MagicItems FireWand` |
+| `/dpcc setresultitem <categoryName> <recipeName>` | dpcc.admin | Set the recipe result item | `/dpcc setresultitem MagicItems FireWand` |
+| `/dpcc setresultamount <categoryName> <recipeName> <amount>` | dpcc.admin | Set the recipe result amount | `/dpcc setresultamount MagicItems FireWand 3` |
+| `/dpcc setresultweight <categoryName> <recipeName>` | dpcc.admin | Set the recipe result weight | `/dpcc setresultweight MagicItems FireWand` |
+| `/dpcc opencategory <categoryName>` | None | Open the category inventory (recipe list GUI) | `/dpcc opencategory MagicItems` |
+| `/dpcc reload` | dpcc.admin | Reload the config | `/dpcc reload` |
 
 **❗Notes when using commands**
 
-- Recipe names support Korean and English, but **spaces are not allowed**  
-- Shaped recipes require exact patterns; shapeless recipes do not  
-- All recipe edits are done via GUI and saved automatically  
+- Category names and recipe names support Korean and English, but **spaces are not allowed**  
+- Most settings are handled through **in-game GUI** (ingredients / result setup)  
+- `setresultitem` typically uses the **item you are holding** as the result item  
 - Admin commands require **OP** status or the `dpcc.admin` permission  
 
 ---
 
 <center><img src="https://i.postimg.cc/Z5ZH0fqL/api-integration.png" alt="api-integration"></center>
 
-Display custom crafting information using PlaceholderAPI
-
-- **`%dpcc_total_recipes%`**: Total number of custom crafting recipes available  
+- No external API integrations are used
 
 ---
 
