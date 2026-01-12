@@ -23,8 +23,6 @@ Enable players to craft new and unique items beyond the standard Minecraft recip
 - All DP-Plugins require the **`DPP-Core`** plugin  
 - The plugin will not work if **`DPP-Core`** is not installed  
 - You can download **`DPP-Core`** here: <a href="https://github.com/DP-Plugins/DPP-Core/releases" target="_blank">Click me!</a>  
-- This plugin integrates with **PlaceholderAPI**  
-- If PlaceholderAPI is not installed, placeholder features will not be available  
 
 ---
 
